@@ -1,0 +1,36 @@
+const mongoose = require("mongoose");
+
+// const{MongoClient} = require('mongodb');
+ const url = 'mongodb+srv://deayan252:el2aD38ojjzjWoWL@cluster0.apl2tas.mongodb.net/mernapp?retryWrites=true&w=majority';
+//  const client = new MongoClient(url);
+
+ const mongoDBs = async () => {
+  await mongoose
+    .connect(url, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+//////////////////////////////////////////////////
+    .then(async () => {
+      console.log(`connection successful`);
+      const fetch_data = await mongoose.connection.db.collection("food_items")
+      const response = await fetch_data.find({}).toArray()
+      // console.log(response);
+    })
+/////////////////////////////////////////////////
+    .catch((err) =>
+      console.log(`connection unsuccessful and the error is ${err}`)
+    );
+};
+
+
+// async function mongoDBs()
+// {
+//   let result = await client.connect();
+//   let db = result.db('mernapp');
+//   let collection = db.collection('food_items');
+//   let response = await collection.find({}).toArray();
+//   console.log(response);
+// }
+
+module.exports = mongoDBs;
