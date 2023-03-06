@@ -15,7 +15,10 @@ const mongoose = require("mongoose");
       console.log(`connection successful`);
       const fetch_data = await mongoose.connection.db.collection("food_items")
       const response = await fetch_data.find({}).toArray()
-      // console.log(response);
+      const fetch_data2 = await mongoose.connection.db.collection("food_category")
+      const response2 = await fetch_data2.find({}).toArray()
+      global.food_items = response;
+      global.food_category = response2;
     })
 /////////////////////////////////////////////////
     .catch((err) =>
