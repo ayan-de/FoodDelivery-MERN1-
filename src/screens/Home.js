@@ -19,15 +19,16 @@ export default function Home() {
       {/* putting the card here below */}
 
       <div className="m-3">
-        {[...new Array(5)].map(()=> 
-          <Card />
+        {/* map function */}
+        {[...new Array(5)].map((_,i)=> 
+          <Card  key={i}/> 
         )}
         
-         <Card />
+        {/* <Card />
         <Card />
         <Card />
         <Card />
-        <Card /> 
+        <Card />  */}
       </div>
 
       <div>

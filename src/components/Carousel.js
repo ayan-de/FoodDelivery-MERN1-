@@ -11,15 +11,15 @@ export default function Carousel() {
       <div className="carousel-inner" id="carousel">
         {/* search box */}
         <div className="carousel-caption" style={{ zIndex: 10 }}>
-          <form class="d-flex">
+          <form className="d-flex">
             <input
-              class="form-control me-2"
+              className="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
             />
             <button
-              class="btn btn-outline-success text-white bg-success"
+              className="btn btn-outline-success text-white bg-success"
               type="submit"
             >
               Search
