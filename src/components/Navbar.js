@@ -41,7 +41,7 @@ const handleLogout = () =>{
               </li>
               {(localStorage.getItem("authToken"))?
                 <li className="nav-item">
-                <Link className="nav-Link btn bg-failure active fs-5 mx-1" aria-current="page" to="/">
+                <Link className="nav-Link btn bg-failure active fs-5 mx-1" aria-current="page" to="/myOrder">
                   My Orders
                 </Link>
               </li>:""
