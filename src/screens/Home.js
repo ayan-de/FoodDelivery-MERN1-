@@ -122,10 +122,11 @@ export default function Home() {
                             key={filterItems._id}
                             className="col-12 col-md-6 col-lg-3"
                           >
-                            <Card
-                              foodName={filterItems.name}
+                            <Card foodItem={filterItems}
+                              // foodName={filterItems.name}
                               options={filterItems.options[0]}
-                              imgSrc={filterItems.img}
+                              // imgSrc={filterItems.img}
+
                             ></Card>
                           </div>
                         );
