@@ -1,15 +1,32 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from 'react-router-dom'
 import { useDispatchCart, useCart } from "./ContextReducer";
 export default function Card(props) {
   let dispatch = useDispatchCart();
+  
   let data = useCart();
   const priceRef = useRef();
+
   let options = props.options;
   let priceOptions = Object.keys(options);
   let foodItem = props.item;
 
+  let navigate = useNavigate()
+
   const [qty, setQty] = useState(1);
   const [size, setSize] = useState("");
+
+  const handleClick = () => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login")
+    }
+  }
+  const handleQty = (e) => {
+    setQty(e.target.value);
+  }
+  const handleOptions = (e) => {
+    setSize(e.target.value);
+  }
 
   const handleAddToCart = async () => {
     let food = [];
@@ -53,6 +70,7 @@ export default function Card(props) {
     });
   };
 
+
   let finalPrice = qty * parseInt(options[size]);
   useEffect(() => {
     setSize(priceRef.current.value);
@@ -72,7 +90,8 @@ export default function Card(props) {
           <div className="container w-100">
             <select
               className="m-2 h-100  bg-success"
-              onChange={(e) => setSize(e.target.value)}
+              onChange={handleQty}
+              // onChange={(e) => setSize(e.target.value)}
             >
               {Array.from(Array(6), (e, i) => {
                 return (
@@ -85,9 +104,9 @@ export default function Card(props) {
             </select>
 
             <select
-              className="rounded m-2 h-100 bg-success"
-              ref={priceRef}
-              onChange={(e) => setQty(e.target.value)}
+              className="rounded m-2 h-100 bg-success text-black rounded" style={{ select: "#FF0000" }}
+              ref={priceRef} onChange={handleOptions}
+              // onChange={(e) => setQty(e.target.value)}
             >
               {priceOptions.map((data) => {
                 return (
@@ -101,15 +120,15 @@ export default function Card(props) {
             <div className="d-inline h-100 fs-5">Rs{finalPrice}/-</div>
           </div>
         </div>
-        {/* <hr/> */}
+        <hr></hr>
         <button
           className={`btn btn-success justify-center ms-2`}
           onClick={handleAddToCart}
         >
           Add To Card
         </button>
-        {/* </hr> */}
       </div>
     </div>
+    
   );
 }
