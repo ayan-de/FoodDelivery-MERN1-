@@ -1,14 +1,14 @@
 // import { response } from "express";
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
-import Carousel from "../components/Carousel";
+// import Carousel from "../components/Carousel";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 export default function Home() {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [foodCat, setFoodCat] = useState([]);
-  const [foodItem, setFoodItem] = useState([]);
+  const [foodItems, setFoodItems] = useState([]);
 
   const loadData = async () => {
     let response = await fetch("http://localhost:5000/api/foodData", {
@@ -19,7 +19,7 @@ export default function Home() {
     });
     response = await response.json();
     // console.log(response[0],response[1]);
-    setFoodItem(response[0]);
+    setFoodItems(response[0]);
     setFoodCat(response[1]);
   };
 
@@ -43,7 +43,9 @@ export default function Home() {
                 placeholder="Search"
                 aria-label="Search"
                 value={search}
-                onChange={(e) => {setSearch(e.target.value)}}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
               />
               {/* <button
                 className="btn btn-outline-success text-white bg-success"
@@ -112,21 +114,34 @@ export default function Home() {
                   <div key={data._id} className="fs-3 m-3">
                     {data.CategoryName}
                   </div>
-                  <hr />
-                  {foodItem !== [] ? (
-                    foodItem
-                      .filter((item) => (item.CategoryName === data.CategoryName) && (item.name.toLowerCase().includes(search.toLocaleLowerCase())))
+                  <hr
+                    id="hr-success"
+                    style={{
+                      height: "4px",
+                      backgroundImage:
+                        "-webkit-linear-gradient(left,rgb(0, 255, 137),rgb(0, 0, 0))",
+                    }}
+                  />
+                  {foodItems !== [] ? (
+                    foodItems
+                      .filter(
+                        (items) =>
+                          items.CategoryName === data.CategoryName &&
+                          items.name
+                            .toLowerCase()
+                            .includes(search.toLocaleLowerCase())
+                      )
                       .map((filterItems) => {
                         return (
                           <div
                             key={filterItems._id}
                             className="col-12 col-md-6 col-lg-3"
                           >
-                            <Card foodItem={filterItems}
-                              // foodName={filterItems.name}
+                            <Card
+                              foodName={filterItems.name}
+                              item={filterItems}
                               options={filterItems.options[0]}
-                              // imgSrc={filterItems.img}
-
+                              ImgSrc={filterItems.img}
                             ></Card>
                           </div>
                         );

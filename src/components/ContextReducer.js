@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer } from "react";
 
 const CartStateContext = createContext();
-const CardDispatchContext = createContext();
+const CartDispatchContext = createContext();
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -48,16 +48,16 @@ const reducer = (state, action) => {
   }
 };
 
-export const CardProvider = ({ children }) => {
+export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, []);
   return (
-    <CardDispatchContext.Provider value={dispatch}>
+    <CartDispatchContext.Provider value={dispatch}>
       <CartStateContext.Provider value={state}>
         {children}
       </CartStateContext.Provider>
-    </CardDispatchContext.Provider>
+    </CartDispatchContext.Provider>
   );
 };
 
 export const useCart = () => useContext(CartStateContext);
-export const useDispatchCart = () => useContext(CardDispatchContext);
+export const useDispatchCart = () => useContext(CartDispatchContext);

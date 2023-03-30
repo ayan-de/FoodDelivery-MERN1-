@@ -1,32 +1,30 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import { useDispatchCart, useCart } from "./ContextReducer";
 export default function Card(props) {
-  let dispatch = useDispatchCart();
-  
   let data = useCart();
+
+  let navigate = useNavigate();
+  const [qty, setQty] = useState(1);
+  const [size, setSize] = useState("");
   const priceRef = useRef();
 
   let options = props.options;
   let priceOptions = Object.keys(options);
   let foodItem = props.item;
-
-  let navigate = useNavigate()
-
-  const [qty, setQty] = useState(1);
-  const [size, setSize] = useState("");
+  let dispatch = useDispatchCart();
 
   const handleClick = () => {
     if (!localStorage.getItem("token")) {
-      navigate("/login")
+      navigate("/login");
     }
-  }
+  };
   const handleQty = (e) => {
     setQty(e.target.value);
-  }
+  };
   const handleOptions = (e) => {
     setSize(e.target.value);
-  }
+  };
 
   const handleAddToCart = async () => {
     let food = [];
@@ -37,11 +35,13 @@ export default function Card(props) {
         break;
       }
     }
+    console.log(food)
+    console.log(new Date())
     if (food !== []) {
       if (food.size === size) {
         await dispatch({
           type: "UPDATE",
-          id: props.foodItem._id,
+          id: foodItem._id,
           price: finalPrice,
           qty: qty,
         });
@@ -49,12 +49,14 @@ export default function Card(props) {
       } else if (food.size !== size) {
         await dispatch({
           type: "ADD",
-          id: props.foodItem._id,
-          name: props.foodItem.name,
+          id:foodItem._id,
+          name: foodItem.name,
           price: finalPrice,
           qty: qty,
           size: size,
+          img:props.ImgSrc,
         });
+        console.log("Size different so simply ADD one more to the list");
         return;
         // console.log(data);
       }
@@ -62,14 +64,14 @@ export default function Card(props) {
     }
     await dispatch({
       type: "ADD",
-      id: props.foodItem._id,
-      name: props.foodItem.name,
+      id: foodItem._id,
+      name:foodItem.name,
       price: finalPrice,
       qty: qty,
       size: size,
     });
+    console.log(data);
   };
-
 
   let finalPrice = qty * parseInt(options[size]);
   useEffect(() => {
@@ -80,16 +82,17 @@ export default function Card(props) {
     <div>
       <div className="card mt-3" style={{ width: "18rem", maxHeight: "360px" }}>
         <img
-          src={props.foodItem.img}
+          src={props.ImgSrc}
           className="card-img-top"
           alt="..."
           style={{ height: "120px", objectFit: "fill" }}
         />
         <div className="card-body">
-          <h5 className="card-title">{props.foodItem.name}</h5>
+          <h5 className="card-title">{props.foodName}</h5>
           <div className="container w-100">
             <select
               className="m-2 h-100  bg-success"
+              onClick={handleClick}
               onChange={handleQty}
               // onChange={(e) => setSize(e.target.value)}
             >
@@ -104,8 +107,11 @@ export default function Card(props) {
             </select>
 
             <select
-              className="rounded m-2 h-100 bg-success text-black rounded" style={{ select: "#FF0000" }}
-              ref={priceRef} onChange={handleOptions}
+              className="rounded m-2 h-100 bg-success text-black rounded"
+              style={{ select: "#FF0000" }}
+              ref={priceRef}
+              onClick={handleClick}
+              onChange={handleOptions}
               // onChange={(e) => setQty(e.target.value)}
             >
               {priceOptions.map((data) => {
@@ -119,7 +125,7 @@ export default function Card(props) {
 
             <div className="d-inline h-100 fs-5">Rs{finalPrice}/-</div>
           </div>
-        </div>
+        
         <hr></hr>
         <button
           className={`btn btn-success justify-center ms-2`}
@@ -129,6 +135,6 @@ export default function Card(props) {
         </button>
       </div>
     </div>
-    
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // const{MongoClient} = require('mongodb');
- const url = 'mongodb+srv://deayan252:el2aD38ojjzjWoWL@cluster0.apl2tas.mongodb.net/mernapp?retryWrites=true&w=majority';
+ const url = 'mongodb+srv://deayan252:12GUDGQ6p0TCeu5u@cluster0.apl2tas.mongodb.net/mernapp?retryWrites=true&w=majority';
 //  const client = new MongoClient(url);
 
  const mongoDBs = async () => {
